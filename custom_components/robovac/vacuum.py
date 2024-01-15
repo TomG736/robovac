@@ -93,9 +93,7 @@ class TUYA_CODES(StrEnum):
     STATE = "15"
     # FAN_SPEED = "102"
     # FAN_SPEED = "130"
-    FAN_SPEED = "158"
     # BATTERY_LEVEL = "104"
-    BATTERY_LEVEL = "163"
     ERROR_CODE = "106"
     CLEANING_TIME = "109"
     CLEANING_AREA = "110"
@@ -103,7 +101,6 @@ class TUYA_CODES(StrEnum):
     DO_NOT_DISTURB2 = "139"
     BOOST_IQ = "118"
     # AUTO_RETURN = "135"
-    AUTO_RETURN = "156"
     RETURN_HOME = "101"  # boolean
     A_111 = "111"  # 65?
     A_122 = "122"  # continue
@@ -115,6 +112,17 @@ class TUYA_CODES(StrEnum):
     CLEAN_STATISTIC = "114"  # decoded
     MULTI_MAPS = "117"  # decoded
 
+    # L60 codes
+    L60_151 = "151" # boolean
+    AUTO_RETURN = "156" # boolean
+    L60_157 = "157" # base64 string
+    FAN_SPEED = "158" # mode string see ROBOVAC_SERIES_FAN_SPEEDS
+    L60_159 = "159" # boolean
+    L60_160 = "160" # boolean
+    VOICE_VOLUME = "161" # int
+    BATTERY_LEVEL = "163" # 0 - 100?
+    L60_168 = "168" # base64 string (padded)
+    L60_176 = "176" # base64 string (has wifi name in it)
 
 TUYA_CONSUMABLES_CODES = ["142", "116"]
 
