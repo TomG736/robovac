@@ -102,7 +102,8 @@ class TUYA_CODES(StrEnum):
     DO_NOT_DISTURB = "107"
     DO_NOT_DISTURB2 = "139"
     BOOST_IQ = "118"
-    AUTO_RETURN = "135"
+    # AUTO_RETURN = "135"
+    AUTO_RETURN = "156"
     RETURN_HOME = "101"  # boolean
     A_111 = "111"  # 65?
     A_122 = "122"  # continue
