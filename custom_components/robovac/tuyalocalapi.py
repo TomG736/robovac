@@ -738,7 +738,7 @@ class TuyaDevice:
     async def async_update_state(self, state_message, _=None):
         if state_message.payload and state_message.payload["dps"]:
             self._dps.update(state_message.payload["dps"])
-            _LOGGER.info("Received updated state {}: {}".format(self, self._dps))
+            _LOGGER.info("Received updated state {}: {}".format(self, json.dumps(self._dps)))
 
     @property
     def state(self):
