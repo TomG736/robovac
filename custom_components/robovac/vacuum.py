@@ -90,7 +90,7 @@ UPDATE_RETRIES = 3
 
 class TUYA_CODES(StrEnum):
     MODE = "5"
-    STATE = "15"
+    # STATE = "15"
     # FAN_SPEED = "102"
     # FAN_SPEED = "130"
     # BATTERY_LEVEL = "104"
@@ -99,7 +99,7 @@ class TUYA_CODES(StrEnum):
     CLEANING_AREA = "110"
     DO_NOT_DISTURB = "107"
     DO_NOT_DISTURB2 = "139"
-    BOOST_IQ = "118"
+    # BOOST_IQ = "118"
     # AUTO_RETURN = "135"
     RETURN_HOME = "101"  # boolean
     A_111 = "111"  # 65?
@@ -114,18 +114,32 @@ class TUYA_CODES(StrEnum):
 
     # L60 codes
     L60_151 = "151" # boolean
+    L60_152 = "152" # base64 (some sort of current mode?)
+    STATE = "153" # base64 (guess)
     AUTO_RETURN = "156" # boolean
     L60_157 = "157" # base64 string
     FAN_SPEED = "158" # mode string see ROBOVAC_SERIES_FAN_SPEEDS
-    L60_159 = "159" # boolean
+    BOOST_IQ = "159" # boolean
     L60_160 = "160" # boolean
     VOICE_VOLUME = "161" # int
     BATTERY_LEVEL = "163" # 0 - 100?
+    L60_167 = "167" # base64
     L60_168 = "168" # base64 string (padded)
+    L60_169 = "169" # base64 string (HWINFO? contains manufacturer, model, MAC, FW Version, something else?)
+    L60_173 = "173" # base64
     L60_176 = "176" # base64 string (has wifi name in it)
+    L60_177 = "177" # base64
+    L60_178 = "178" # base64
+    L60_179 = "179" # base64
 
 TUYA_CONSUMABLES_CODES = ["142", "116"]
-
+L60_states = {
+    b'\x10\x052\x00':STATE_CLEANING,
+    b'\x10\x052\x02\x08\x01':STATE_IDLE,
+    b'\x04\x10\x07B\x00':STATE_RETURNING,
+    b'\x10\x03\x1a\x00':STATE_DOCKED, # charging
+    b'\x10\x03\x1a\x02\x08\x01':STATE_DOCKED # charge done
+}
 
 async def async_setup_entry(
     hass: HomeAssistant,
@@ -232,14 +246,10 @@ class RoboVacEntity(StateVacuumEntity):
                 )
             )
             return STATE_ERROR
-        elif self.tuya_state == "Charging" or self.tuya_state == "completed":
-            return STATE_DOCKED
-        elif self.tuya_state == "Recharge":
-            return STATE_RETURNING
-        elif self.tuya_state == "Sleeping" or self.tuya_state == "standby":
-            return STATE_IDLE
-        else:
-            return STATE_CLEANING
+        for key in L60_states.keys():
+            if key in self.tuya_state:
+                return L60_states[key]
+        return STATE_ERROR
 
     @property
     def extra_state_attributes(self) -> dict[str, Any]:
