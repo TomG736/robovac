@@ -247,7 +247,7 @@ class RoboVacEntity(StateVacuumEntity):
             )
             return STATE_ERROR
         for key in L60_states.keys():
-            if key in self.tuya_state:
+            if key in base64.b64decode(self.tuya_state):
                 return L60_states[key]
         return STATE_ERROR
 
