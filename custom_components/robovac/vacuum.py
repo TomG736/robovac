@@ -33,6 +33,7 @@ from homeassistant.components.vacuum import (
     STATE_CLEANING,
     STATE_DOCKED,
     STATE_ERROR,
+    STATE_PAUSED,
     STATE_IDLE,
     STATE_RETURNING,
 )
@@ -134,11 +135,13 @@ class TUYA_CODES(StrEnum):
 
 TUYA_CONSUMABLES_CODES = ["142", "116"]
 L60_states = {
-    b'\x10\x052\x00':STATE_CLEANING,
-    b'\x10\x052\x02\x08\x01':STATE_IDLE,
-    b'\x04\x10\x07B\x00':STATE_RETURNING,
-    b'\x10\x03\x1a\x00':STATE_DOCKED, # charging
-    b'\x10\x03\x1a\x02\x08\x01':STATE_DOCKED # charge done
+    b'\x10\x052\x00': STATE_CLEANING,
+    b'\x10\x052\x02\x08\x01': STATE_PAUSED,
+    b'\x10\x07B\x00': STATE_RETURNING,
+    b'\x10\x03\x1a\x00': STATE_DOCKED, # charging
+    b'\x10\x03\x1a\x02\x08\x01': STATE_DOCKED, # charge done
+    b'\x10\x04*\x00': STATE_CLEANING, # Quick Mapping
+    b'\x10\x05R\x00': STATE_IDLE # Locating?
 }
 
 async def async_setup_entry(
