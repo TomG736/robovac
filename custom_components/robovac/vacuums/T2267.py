@@ -30,10 +30,10 @@ class T2267:
     commands = {
         # protocol: 150
         # power switch: 151
-        # RobovacCommand.MODE: {
-        #     "code": 152,
-        #     "values": [], # unknown
-        # },
+        RobovacCommand.MODE: {
+            "code": 152,
+            "values": [], # unknown
+        },
         RobovacCommand.STATUS: {
             # there is far more to this field!
             "code": 153,

@@ -116,6 +116,7 @@ class RoboVacEntity(StateVacuumEntity):
     _attr_boost_iq: str | None = None
     _attr_consumables: str | None = None
     _attr_mode: str | None = None
+    _attr_fan_speed: str | None = None
     _attr_robovac_supported: str | None = None
 
     @property
@@ -178,7 +179,7 @@ class RoboVacEntity(StateVacuumEntity):
         if self.tuya_state is None:
             return STATE_UNAVAILABLE
         elif (
-            type(self.error_code) is not None
+            self.error_code is not None
             and self.error_code
             and self.error_code
             not in [
@@ -187,9 +188,8 @@ class RoboVacEntity(StateVacuumEntity):
             ]
         ):
             _LOGGER.debug(
-                "State changed to error. Error message: {}".format(
-                    getErrorMessage(self.error_code)
-                )
+                "State changed to error. Error message: %s",
+                getErrorMessage(self.error_code),
             )
             return STATE_ERROR
         elif self.tuya_state == "Charging" or self.tuya_state == "completed":
@@ -206,7 +206,7 @@ class RoboVacEntity(StateVacuumEntity):
         """Return the device-specific state attributes of this vacuum."""
         data: dict[str, Any] = {}
 
-        if type(self.error_code) is not None and self.error_code not in [0, "no_error"]:
+        if self.error_code is not None and self.error_code not in [0, "no_error"]:
             data[ATTR_ERROR] = getErrorMessage(self.error_code)
         if (
             self.robovac_supported & RoboVacEntityFeature.CLEANING_AREA
@@ -350,7 +350,7 @@ class RoboVacEntity(StateVacuumEntity):
             self._tuya_command_codes[RobovacCommand.ERROR]
         )
         self._attr_mode = self.tuyastatus.get(
-            self._tuya_command_codes[RobovacCommand.MODE]
+            self._tuya_command_codes[RobovacCommand.MODE].get("code")
         )
         self._attr_fan_speed = friendly_text(
             self.tuyastatus.get(self._tuya_command_codes[RobovacCommand.FAN_SPEED], "")
