@@ -31,6 +31,7 @@ from .T2194 import T2194
 from .T2261 import T2261
 from .T2262 import T2262
 from .T2320 import T2320
+from .T2267 import T2267
 
 
 ROBOVAC_MODELS = {
@@ -66,5 +67,6 @@ ROBOVAC_MODELS = {
     "T2194": T2194,
     "T2261": T2261,
     "T2262": T2262,
-    "T2320": T2320
+    "T2320": T2320,
+    "T2267": T2267,
 }
