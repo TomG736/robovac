@@ -336,9 +336,16 @@ class RoboVacEntity(StateVacuumEntity):
         self._attr_battery_level = self.tuyastatus.get(
             self._tuya_command_codes[RobovacCommand.BATTERY]
         )
-        self.tuya_state = self.tuyastatus.get(
-            self._tuya_command_codes[RobovacCommand.STATUS]
-        )
+        status_obj = self._tuya_command_codes[RobovacCommand.STATUS]
+        if isinstance(status_obj, int):
+            self.tuya_state = self.tuyastatus.get(status_obj)
+        elif isinstance(status_obj, dict):
+            for key in status_obj["values"]:
+                if key in self.tuyastatus.get(status_obj["code"]):
+                    self.tuya_state = status_obj["values"][key]
+                    break
+            else:
+                self.tuya_state = None
         self.error_code = self.tuyastatus.get(
             self._tuya_command_codes[RobovacCommand.ERROR]
         )
