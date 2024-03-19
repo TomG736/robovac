@@ -5,26 +5,26 @@ from .base import RoboVacEntityFeature, RobovacCommand
 class T2267:
     homeassistant_features = (
         VacuumEntityFeature.BATTERY
-        | VacuumEntityFeature.CLEAN_SPOT
+        # | VacuumEntityFeature.CLEAN_SPOT
         | VacuumEntityFeature.FAN_SPEED
         | VacuumEntityFeature.LOCATE
         | VacuumEntityFeature.PAUSE
-        | VacuumEntityFeature.RETURN_HOME
+        # | VacuumEntityFeature.RETURN_HOME
         | VacuumEntityFeature.SEND_COMMAND
         | VacuumEntityFeature.START
         | VacuumEntityFeature.STATE
         | VacuumEntityFeature.STOP
-        | VacuumEntityFeature.MAP
+        # | VacuumEntityFeature.MAP
     )
     robovac_features = (
-        RoboVacEntityFeature.CLEANING_TIME
-        | RoboVacEntityFeature.CLEANING_AREA
-        | RoboVacEntityFeature.DO_NOT_DISTURB
-        | RoboVacEntityFeature.AUTO_RETURN
-        | RoboVacEntityFeature.ROOM
-        | RoboVacEntityFeature.ZONE
+        # RoboVacEntityFeature.CLEANING_TIME
+        # | RoboVacEntityFeature.CLEANING_AREA
+        RoboVacEntityFeature.DO_NOT_DISTURB
+        # | RoboVacEntityFeature.AUTO_RETURN
+        # | RoboVacEntityFeature.ROOM
+        # | RoboVacEntityFeature.ZONE
         | RoboVacEntityFeature.BOOST_IQ
-        | RoboVacEntityFeature.MAP
+        # | RoboVacEntityFeature.MAP
         | RoboVacEntityFeature.CONSUMABLES
     )
     commands = {
