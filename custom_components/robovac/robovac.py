@@ -31,6 +31,11 @@ class RoboVac(TuyaDevice):
     def getModes(self):
         return self.model_details.commands[RobovacCommand.MODE]["values"]
 
+    def getStatusSegments(self):
+        if isinstance(self.model_details.commands[RobovacCommand.STATUS], int):
+            return []
+        return self.model_details.commands[RobovacCommand.STATUS]["values"]
+
     def getSupportedCommands(self):
         return list(self.model_details.commands.keys())
 

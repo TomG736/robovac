@@ -33,6 +33,7 @@ from homeassistant.components.vacuum import (
     STATE_DOCKED,
     STATE_ERROR,
     STATE_IDLE,
+    STATE_PAUSED,
     STATE_RETURNING,
 )
 from homeassistant.config_entries import ConfigEntry
@@ -192,12 +193,24 @@ class RoboVacEntity(StateVacuumEntity):
                 getErrorMessage(self.error_code),
             )
             return STATE_ERROR
-        elif self.tuya_state == "Charging" or self.tuya_state == "completed":
+        state: str = ""
+        if len(self._tuya_status_segments) > 0:
+            for key in self._tuya_status_segments:
+                if key in self.tuya_state:
+                    state = self._tuya_status_segments[key]
+                    break
+            else:
+                return STATE_ERROR
+        else:
+            state = self.tuya_state
+        if state in ["Charging", "completed"]:
             return STATE_DOCKED
-        elif self.tuya_state == "Recharge":
+        elif state == "Recharge":
             return STATE_RETURNING
-        elif self.tuya_state == "Sleeping" or self.tuya_state == "standby":
+        elif state in ["Sleeping", "standby"]:
             return STATE_IDLE
+        elif state == "Paused":
+            return STATE_PAUSED
         else:
             return STATE_CLEANING
 
@@ -276,6 +289,7 @@ class RoboVacEntity(StateVacuumEntity):
         self._attr_fan_speed_list = list(self.fan_speed_map.keys())
         _LOGGER.debug(self._attr_fan_speed_list)
         self._tuya_command_codes = self.vacuum.getCommandCodes()
+        self._tuya_status_segments = self.vacuum.getStatusSegments()
 
         self._attr_mode = None
         self._attr_consumables = None
@@ -336,21 +350,14 @@ class RoboVacEntity(StateVacuumEntity):
         self._attr_battery_level = self.tuyastatus.get(
             self._tuya_command_codes[RobovacCommand.BATTERY]
         )
-        status_obj = self._tuya_command_codes[RobovacCommand.STATUS]
-        if isinstance(status_obj, int):
-            self.tuya_state = self.tuyastatus.get(status_obj)
-        elif isinstance(status_obj, dict):
-            for key in status_obj["values"]:
-                if key in self.tuyastatus.get(status_obj["code"]):
-                    self.tuya_state = status_obj["values"][key]
-                    break
-            else:
-                self.tuya_state = None
+        self.tuya_state = self.tuyastatus.get(
+            self._tuya_command_codes[RobovacCommand.STATUS]
+        )
         self.error_code = self.tuyastatus.get(
             self._tuya_command_codes[RobovacCommand.ERROR]
         )
         self._attr_mode = self.tuyastatus.get(
-            self._tuya_command_codes[RobovacCommand.MODE].get("code")
+            self._tuya_command_codes[RobovacCommand.MODE]
         )
         self._attr_fan_speed = friendly_text(
             self.tuyastatus.get(self._tuya_command_codes[RobovacCommand.FAN_SPEED], "")
