@@ -194,6 +194,7 @@ class RoboVacEntity(StateVacuumEntity):
             )
             return STATE_ERROR
         state: str = ""
+        _LOGGER.debug("state: %s", self.tuya_state)
         if len(self._tuya_status_segments) > 0:
             for key in self._tuya_status_segments:
                 if key in self.tuya_state:
@@ -393,6 +394,7 @@ class RoboVacEntity(StateVacuumEntity):
                 self._tuya_command_codes[RobovacCommand.CONSUMABLES]
             )
             if encoded_consumables is not None:
+                _LOGGER.debug("consumables: %s", encoded_consumables)
                 consumables = ast.literal_eval(
                     base64.b64decode(encoded_consumables).decode("ascii")
                 )
