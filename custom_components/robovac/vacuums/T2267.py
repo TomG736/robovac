@@ -38,13 +38,13 @@ class T2267:
             # there is far more to this field!
             "code": 153,
             "values": {
-                b"\x10\x052\x00": "Cleaning",
-                b"\x10\x052\x02\x08\x01": "Paused",
-                b"\x10\x07B\x00": "Recharge",
-                b"\x10\x03\x1a\x00": "Charging",
-                b"\x10\x03\x1a\x02\x08\x01": "completed",
-                b"\x10\x04*\x00": "QuickMapping",
-                b"\x10\x05R\x00": "standby",  # Locating?
+                "\x10\x052\x00": "Cleaning",
+                "\x10\x052\x02\x08\x01": "Paused",
+                "\x10\x07B\x00": "Recharge",
+                "\x10\x03\x1a\x00": "Charging",
+                "\x10\x03\x1a\x02\x08\x01": "completed",
+                "\x10\x04*\x00": "QuickMapping",
+                "\x10\x05R\x00": "standby",  # Locating?
             },
         },
         # cleaning params: 154
