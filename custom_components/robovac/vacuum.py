@@ -186,8 +186,8 @@ class RoboVacEntity(StateVacuumEntity):
             not in [
                 0,
                 "no_error",
-                "DAiFruzJt+PtzgFSAA=="
             ]
+            and "zgFSAA==" not in self.error_code  # ignore base64 errors
         ):
             _LOGGER.debug(
                 "State changed to error. Error message: %s",
@@ -398,12 +398,19 @@ class RoboVacEntity(StateVacuumEntity):
             if encoded_consumables is not None:
                 try:
                     _LOGGER.debug("consumables: %s", encoded_consumables)
-                    _LOGGER.debug("consumables: %s", base64.b64decode(encoded_consumables))
+                    _LOGGER.debug(
+                        "consumables: %s", base64.b64decode(encoded_consumables)
+                    )
                     consumables = ast.literal_eval(
                         base64.b64decode(encoded_consumables).decode("ascii")
                     )
-                    _LOGGER.debug("Consumables decoded value is: {}".format(consumables))
-                    if "consumable" in consumables and "duration" in consumables["consumable"]:
+                    _LOGGER.debug(
+                        "Consumables decoded value is: {}".format(consumables)
+                    )
+                    if (
+                        "consumable" in consumables
+                        and "duration" in consumables["consumable"]
+                    ):
                         _LOGGER.debug(
                             "Consumables encoded value is: {}".format(
                                 consumables["consumable"]["duration"]
@@ -411,7 +418,7 @@ class RoboVacEntity(StateVacuumEntity):
                         )
                         self._attr_consumables = consumables["consumable"]["duration"]
                 except UnicodeDecodeError:
-                    _LOGGER.exception('Failed to decode consumables')
+                    _LOGGER.exception("Failed to decode consumables")
 
     async def async_locate(self, **kwargs):
         """Locate the vacuum cleaner."""
