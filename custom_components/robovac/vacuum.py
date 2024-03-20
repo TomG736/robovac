@@ -395,19 +395,22 @@ class RoboVacEntity(StateVacuumEntity):
                 self._tuya_command_codes[RobovacCommand.CONSUMABLES]
             )
             if encoded_consumables is not None:
-                _LOGGER.debug("consumables: %s", encoded_consumables)
-                _LOGGER.debug("consumables: %s", base64.b64decode(encoded_consumables))
-                consumables = ast.literal_eval(
-                    base64.b64decode(encoded_consumables).decode("ascii")
-                )
-                _LOGGER.debug("Consumables decoded value is: {}".format(consumables))
-                if "consumable" in consumables and "duration" in consumables["consumable"]:
-                    _LOGGER.debug(
-                        "Consumables encoded value is: {}".format(
-                            consumables["consumable"]["duration"]
-                        )
+                try:
+                    _LOGGER.debug("consumables: %s", encoded_consumables)
+                    _LOGGER.debug("consumables: %s", base64.b64decode(encoded_consumables))
+                    consumables = ast.literal_eval(
+                        base64.b64decode(encoded_consumables).decode("ascii")
                     )
-                    self._attr_consumables = consumables["consumable"]["duration"]
+                    _LOGGER.debug("Consumables decoded value is: {}".format(consumables))
+                    if "consumable" in consumables and "duration" in consumables["consumable"]:
+                        _LOGGER.debug(
+                            "Consumables encoded value is: {}".format(
+                                consumables["consumable"]["duration"]
+                            )
+                        )
+                        self._attr_consumables = consumables["consumable"]["duration"]
+                except UnicodeDecodeError:
+                    _LOGGER.exception('Failed to decode consumables')
 
     async def async_locate(self, **kwargs):
         """Locate the vacuum cleaner."""
