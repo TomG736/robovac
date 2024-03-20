@@ -186,6 +186,7 @@ class RoboVacEntity(StateVacuumEntity):
             not in [
                 0,
                 "no_error",
+                "DAiFruzJt+PtzgFSAA=="
             ]
         ):
             _LOGGER.debug(
