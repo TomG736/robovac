@@ -15,9 +15,11 @@ class RoboVacEntityFeature(IntEnum):
     ZONE = 256
     MAP = 512
     BOOST_IQ = 1024
+    PROTOCOL = 2048
 
 
 class RobovacCommand(StrEnum):
+    PROTOCOL = "protocol"
     START_PAUSE = "start_pause"
     DIRECTION = "direction"
     MODE = "mode"

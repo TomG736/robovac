@@ -24,11 +24,12 @@ class T2267:
         # | RoboVacEntityFeature.ROOM
         # | RoboVacEntityFeature.ZONE
         | RoboVacEntityFeature.BOOST_IQ
+        | RoboVacEntityFeature.PROTOCOL
         # | RoboVacEntityFeature.MAP
         | RoboVacEntityFeature.CONSUMABLES
     )
     commands = {
-        # protocol: 150
+        RobovacCommand.PROTOCOL: 150,
         # power switch: 151
         RobovacCommand.MODE: {
             "code": 152,

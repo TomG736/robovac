@@ -82,6 +82,7 @@ ATTR_DO_NOT_DISTURB = "do_not_disturb"
 ATTR_BOOST_IQ = "boost_iq"
 ATTR_CONSUMABLES = "consumables"
 ATTR_MODE = "mode"
+ATTR_PROTOCOL = "protocol"
 
 _LOGGER = logging.getLogger(__name__)
 SCAN_INTERVAL = timedelta(seconds=REFRESH_RATE)
@@ -117,6 +118,7 @@ class RoboVacEntity(StateVacuumEntity):
     _attr_boost_iq: str | None = None
     _attr_consumables: str | None = None
     _attr_mode: str | None = None
+    _attr_protocol: str | None = None
     _attr_fan_speed: str | None = None
     _attr_robovac_supported: str | None = None
 
@@ -129,6 +131,11 @@ class RoboVacEntity(StateVacuumEntity):
     def mode(self) -> str | None:
         """Return the cleaning mode of the vacuum cleaner."""
         return self._attr_mode
+
+    @property
+    def protocol(self) -> str | None:
+        """Return the protocol of the vacuum cleaner."""
+        return self._attr_protocol
 
     @property
     def consumables(self) -> str | None:
@@ -253,6 +260,8 @@ class RoboVacEntity(StateVacuumEntity):
             data[ATTR_CONSUMABLES] = self.consumables
         if self.mode:
             data[ATTR_MODE] = self.mode
+        if self.protocol:
+            data[ATTR_PROTOCOL] = self.protocol
         return data
 
     def __init__(self, item) -> None:
@@ -295,6 +304,7 @@ class RoboVacEntity(StateVacuumEntity):
         self._tuya_status_segments = self.vacuum.getStatusSegments()
 
         self._attr_mode = None
+        self._attr_protocol = None
         self._attr_consumables = None
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, item[CONF_ID])},
@@ -365,6 +375,10 @@ class RoboVacEntity(StateVacuumEntity):
         self._attr_fan_speed = friendly_text(
             self.tuyastatus.get(self._tuya_command_codes[RobovacCommand.FAN_SPEED], "")
         )
+        if self.robovac_supported & RoboVacEntityFeature.PROTOCOL:
+            self._attr_protocol = self.tuyastatus.get(
+                self._tuya_command_codes[RobovacCommand.PROTOCOL]
+            )
 
         if self.robovac_supported & RoboVacEntityFeature.CLEANING_AREA:
             self._attr_cleaning_area = self.tuyastatus.get(
