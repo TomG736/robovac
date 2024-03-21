@@ -140,6 +140,11 @@ class RoboVacEntity(StateVacuumEntity):
         return self._attr_protocol
 
     @property
+    def other(self) -> list | None:
+        """Return the unmapped info of the vacuum cleaner."""
+        return self._attr_other
+
+    @property
     def consumables(self) -> str | None:
         """Return the consumables status of the vacuum cleaner."""
         return self._attr_consumables
@@ -264,8 +269,8 @@ class RoboVacEntity(StateVacuumEntity):
             data[ATTR_MODE] = self.mode
         if self.protocol:
             data[ATTR_PROTOCOL] = self.protocol
-        if self._attr_other:
-            data[ATTR_OTHER] = self._attr_other
+        if self.other:
+            data[ATTR_OTHER] = self.other
         return data
 
     def __init__(self, item) -> None:
