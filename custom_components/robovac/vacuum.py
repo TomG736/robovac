@@ -83,6 +83,7 @@ ATTR_BOOST_IQ = "boost_iq"
 ATTR_CONSUMABLES = "consumables"
 ATTR_MODE = "mode"
 ATTR_PROTOCOL = "protocol"
+ATTR_OTHER = "other"
 
 _LOGGER = logging.getLogger(__name__)
 SCAN_INTERVAL = timedelta(seconds=REFRESH_RATE)
@@ -120,6 +121,7 @@ class RoboVacEntity(StateVacuumEntity):
     _attr_mode: str | None = None
     _attr_protocol: str | None = None
     _attr_fan_speed: str | None = None
+    _attr_other: dict | None = None
     _attr_robovac_supported: str | None = None
 
     @property
@@ -262,6 +264,8 @@ class RoboVacEntity(StateVacuumEntity):
             data[ATTR_MODE] = self.mode
         if self.protocol:
             data[ATTR_PROTOCOL] = self.protocol
+        if self._attr_other:
+            data[ATTR_OTHER] = self._attr_other
         return data
 
     def __init__(self, item) -> None:
@@ -379,6 +383,10 @@ class RoboVacEntity(StateVacuumEntity):
             self._attr_protocol = self.tuyastatus.get(
                 self._tuya_command_codes[RobovacCommand.PROTOCOL]
             )
+        if self.robovac_supported & RoboVacEntityFeature.OTHER:
+            self._attr_other = {}
+            for key in self._tuya_command_codes[RobovacCommand.OTHER]:
+                self._attr_other[key] = self.tuyastatus.get(key)
 
         if self.robovac_supported & RoboVacEntityFeature.CLEANING_AREA:
             self._attr_cleaning_area = self.tuyastatus.get(

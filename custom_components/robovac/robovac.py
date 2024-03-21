@@ -44,6 +44,8 @@ class RoboVac(TuyaDevice):
         for key, value in self.model_details.commands.items():
             if isinstance(value, dict):
                 command_codes[key] = str(value["code"])
+            if isinstance(value, list):
+                command_codes[key] = value
             else:
                 command_codes[key] = str(value)
 

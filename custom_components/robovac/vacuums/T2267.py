@@ -27,13 +27,14 @@ class T2267:
         | RoboVacEntityFeature.PROTOCOL
         # | RoboVacEntityFeature.MAP
         | RoboVacEntityFeature.CONSUMABLES
+        | RoboVacEntityFeature.OTHER
     )
     commands = {
         RobovacCommand.PROTOCOL: 150,
         # power switch: 151
         RobovacCommand.MODE: {
             "code": 152,
-            "values": [], # unknown
+            "values": [],  # unknown
         },
         RobovacCommand.STATUS: {
             # there is far more to this field!
@@ -80,7 +81,26 @@ class T2267:
         RobovacCommand.ERROR: 177,
         # toast: 178
         # analysis: 179
-
+        RobovacCommand.OTHER: [
+            151,
+            154,
+            161,
+            162,
+            164,
+            165,
+            166,
+            167,
+            169,
+            170,
+            171,
+            172,
+            173,
+            174,
+            175,
+            176,
+            178,
+            179,
+        ],
         # RobovacCommand.RETURN_HOME: 101,
         # These commands need codes adding
         # RobovacCommand.CLEANING_AREA: 0,

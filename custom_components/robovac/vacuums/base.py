@@ -16,6 +16,7 @@ class RoboVacEntityFeature(IntEnum):
     MAP = 512
     BOOST_IQ = 1024
     PROTOCOL = 2048
+    OTHER = 4096
 
 
 class RobovacCommand(StrEnum):
@@ -35,3 +36,4 @@ class RobovacCommand(StrEnum):
     DO_NOT_DISTURB = "do_not_disturb"
     BOOST_IQ = "boost_iq"
     CONSUMABLES = "consumables"
+    OTHER = "other"
