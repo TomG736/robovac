@@ -395,6 +395,11 @@ class RoboVacEntity(StateVacuumEntity):
                 res = self.tuyastatus.get(key)
                 if res is not None:
                     self._attr_other[key] = res
+                else:
+                    _LOGGER.debug("No other %i", key)
+            _LOGGER.debug("Others: %s", json.dumps(self._attr_other))
+        else:
+            _LOGGER.debug("RoboVacEntityFeature.OTHER not supported")
 
         if self.robovac_supported & RoboVacEntityFeature.CLEANING_AREA:
             self._attr_cleaning_area = self.tuyastatus.get(
