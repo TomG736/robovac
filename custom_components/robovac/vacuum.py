@@ -369,6 +369,7 @@ class RoboVacEntity(StateVacuumEntity):
 
     def update_entity_values(self):
         self.tuyastatus = self.vacuum._dps
+        _LOGGER.debug("Tuyastatus: %s", json.dumps(self.tuyastatus))
 
         self._attr_battery_level = self.tuyastatus.get(
             self._tuya_command_codes[RobovacCommand.BATTERY]
