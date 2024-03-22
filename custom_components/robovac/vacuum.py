@@ -377,6 +377,8 @@ class RoboVacEntity(StateVacuumEntity):
         self.tuya_state = self.tuyastatus.get(
             self._tuya_command_codes[RobovacCommand.STATUS]
         )
+        _LOGGER.debug("tuya_state %s: %s", json.dumps(self._tuya_command_codes[RobovacCommand.STATUS]), json.dumps(self.tuya_state))
+
         self.error_code = self.tuyastatus.get(
             self._tuya_command_codes[RobovacCommand.ERROR]
         )
