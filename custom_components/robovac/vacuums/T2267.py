@@ -52,7 +52,7 @@ class T2267:
         # cleaning params: 154
         RobovacCommand.DIRECTION: {
             "code": 155,
-            "values": ["Forward", "Back", "Left", "Right"],
+            "values": ["Brake", "Forward", "Back", "Left", "Right"],
         },
         RobovacCommand.START_PAUSE: 156,
         RobovacCommand.DO_NOT_DISTURB: 157,

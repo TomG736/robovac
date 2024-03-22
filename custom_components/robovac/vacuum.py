@@ -140,7 +140,7 @@ class RoboVacEntity(StateVacuumEntity):
         return self._attr_protocol
 
     @property
-    def other(self) -> list | None:
+    def other(self) -> dict | None:
         """Return the unmapped info of the vacuum cleaner."""
         return self._attr_other
 
@@ -192,6 +192,7 @@ class RoboVacEntity(StateVacuumEntity):
     @property
     def state(self) -> str | None:
         if self.tuya_state is None:
+            _LOGGER.debug("STATE_UNAVAILABLE")
             return STATE_UNAVAILABLE
         elif (
             self.error_code is not None
