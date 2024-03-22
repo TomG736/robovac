@@ -393,7 +393,7 @@ class RoboVacEntity(StateVacuumEntity):
         if self.robovac_supported & RoboVacEntityFeature.OTHER:
             self._attr_other = {}
             for key in self._tuya_command_codes[RobovacCommand.OTHER]:
-                res = self.tuyastatus.get(key)
+                res = self.tuyastatus.get(str(key))
                 if res is not None:
                     self._attr_other[key] = res
                 else:
