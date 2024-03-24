@@ -82,24 +82,26 @@ class T2267:
         # toast: 178
         # analysis: 179
         RobovacCommand.OTHER: [
-            151,
-            154,
-            161,
-            162,
-            164,
-            165,
-            166,
-            167,
-            169,
-            170,
-            171,
-            172,
-            173,
-            174,
-            175,
-            176,
-            178,
-            179,
+            151, # power switch
+            152, # mode
+            153, # status
+            154, # cleaning params 
+            161, # volume
+            162, # langage
+            164, # timing
+            165, # reserved2
+            166, # log_debug
+            167, # clean_stats
+            169, # app_dev_info
+            170, # map edit
+            171, # multi map control
+            172, # multi map manage
+            173, # station
+            174, # media manager
+            175, # reserved3
+            176, # unisetting
+            178, # toast
+            179, # analysis
         ],
         # RobovacCommand.RETURN_HOME: 101,
         # These commands need codes adding
